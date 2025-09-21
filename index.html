@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Heartbeat</title>
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      text-align: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 10px;
+    }
+    .heart {
+      width: 25vw;
+      max-width: 150px;
+      aspect-ratio: 1 / 1;
+      background: grey;
+      clip-path: polygon(50% 15%, 61% 6%, 75% 6%, 88% 15%, 94% 30%, 88% 45%, 50% 90%, 12% 45%, 6% 30%, 12% 15%, 25% 6%, 39% 6%);
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+      margin-bottom: 20px;
+    }
+    .beat {
+      animation: beat 0.5s ease;
+    }
+    @keyframes beat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(0.9); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .glow {
+      background: white !important;
+      box-shadow: 0 0 20px rgba(255,255,255,0.8),
+                  0 0 40px rgba(255,255,255,1);
+    }
+    video {
+      display: none;
+      width: 90vw;
+      max-width: 600px;
+      height: auto;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+    #message {
+      display: none;
+      color: red;
+      font-weight: bold;
+      font-size: 5vw;
+      max-width: 90vw;
+      line-height: 1.4em;
+      margin-top: 20px;
+    }
+    @media (min-width: 768px) {
+      #message {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="heart" id="heart"></div>
+  <audio id="audio" src="song.mp3"></audio>
+  <video id="video">
+    <source src="clip.mp4" type="video/mp4">
+  </video>
+  <div id="message">
+    its gonna be something different i dont want it to be the same as other things ive made before and i swear imma make it different for real standing on...
+  </div>
+  <script>
+    const heart = document.getElementById("heart");
+    const audio = document.getElementById("audio");
+    const video = document.getElementById("video");
+    const message = document.getElementById("message");
+    let clickCount = 0;
+    heart.addEventListener("click", () => {
+      clickCount++;
+      heart.classList.add("beat");
+      setTimeout(() => heart.classList.remove("beat"), 500);
+      heart.classList.add("glow");
+      setTimeout(() => {
+        heart.classList.remove("glow");
+        heart.style.background = "grey";
+        heart.style.boxShadow = "none";
+      }, 2000);
+      if (clickCount === 5) {
+        heart.style.display = "none";
+        audio.play();
+        message.style.display = "block";
+        setTimeout(() => {
+          message.style.display = "none";
+        }, 12500);
+        audio.addEventListener("ended", () => {
+          video.style.display = "block";
+          video.play();
+        });
+        video.addEventListener("ended", () => {
+          window.location.replace("https://www.google.com/search?q=21+February+2026");
+        });
+      }
+    });
+  </script>
+</body>
+</html>
